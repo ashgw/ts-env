@@ -1,17 +1,6 @@
-
-<div align="center">
-
-# ts-env
+# @ashgw/ts-env
 
 A lightweight TypeScript utility for managing and validating environment variables with `zod`.
-
-[![CI](https://github.com/AshGw/ts-env/actions/workflows/ci.yml/badge.svg)](https://github.com/AshGw/ts-env/actions/workflows/ci.yml)
-[![@latest](https://img.shields.io/npm/v/@ashgw/ts-env.svg)](https://www.npmjs.com/package/ts-env)
-[![npm downloads](https://img.shields.io/npm/dm/@ashgw/ts-env.svg)](https://www.npmjs.com/package/@ashgw/ts-env)
-[![Socket Badge](https://socket.dev/api/badge/npm/package/@ashgw/ts-env/1.0.1)](https://socket.dev/npm/package/ts-env/overview/1.40.0)
-<hr/>
-</div>
-
 
 ## What It Does
 
@@ -23,13 +12,13 @@ A lightweight TypeScript utility for managing and validating environment variabl
 ## Installation
 
 ```bash
-npm install ts-env zod
+npm install @ashgw/ts-env zod
 ```
 
 or with `pnpm`:
 
 ```bash
-pnpm add ts-env zod
+pnpm add @ashgw/ts-env zod
 ```
 
 ## Usage
@@ -38,7 +27,7 @@ pnpm add ts-env zod
 
 ```typescript
 import { z } from 'zod';
-import { createEnv } from 'ts-env';
+import { createEnv } from '@ashgw/ts-env';
 
 const env = createEnv({
   vars: {
@@ -57,7 +46,7 @@ If your environment variables have a prefix, you can specify it:
 
 ```typescript
 import { z } from 'zod';
-import { createEnv } from 'ts-env';
+import { createEnv } from '@ashgw/ts-env';
 
 const env = createEnv({
   vars: {
@@ -83,7 +72,7 @@ NEXT_PUBLIC_PORT=3000
 ```typescript
 import dotenv from 'dotenv';
 import { z } from 'zod';
-import { createEnv } from 'ts-env';
+import { createEnv } from '@ashgw/ts-env';
 
 dotenv.config();
 
@@ -129,3 +118,4 @@ When validation fails, `createEnv` throws an error:
 ## License
 
 [MIT](./LICENSE)
+
