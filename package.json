@@ -1,6 +1,6 @@
 {
   "name": "ts-env",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
   "description": "Type-safe envirnment variable validator. Catch errors at runtime with strict configs",
   "keywords": [
