@@ -4,12 +4,11 @@ A lightweight TypeScript utility for managing and validating environment variabl
 
 ## Features
 
-- **Schema-Based Validation**: Validate environment variables against a schema using `zod`.
-- **Prefix Support**: Handle variables with prefixes (e.g., `NEXT_PUBLIC_`).
-- **Disable Prefix for Specific Variables**: Disable the prefix for certain variables when needed.
-- **Type-Safe Environment Variables**: Provide type-safe access to environment variables.
-- **Skip Validation Option**: Optionally skip validation if needed.
-
+- **Schema Validation**: Validate environment variables with a `zod` schema.
+- **Prefix Handling**: Support prefixes like `NEXT_PUBLIC_` for variables.
+- **Flexible Prefix Control**: Exclude prefixes for specific variables as needed.
+- **Type Safety**: Access environment variables with full type safety.
+- **Optional Validation**: Skip validation when required.
 ## Installation
 
 ```bash
@@ -76,7 +75,7 @@ const env = createEnv({
     PORT: z.string().regex(/^\d+$/, 'PORT must be a number'),
   },
   prefix: 'NEXT_PUBLIC',
-  disablePrefix: ['NODE_ENV'] as const,
+  disablePrefix: ['NODE_ENV'],
 });
 
 console.log(env.NEXT_PUBLIC_API_URL); // e.g., "https://example.com"
