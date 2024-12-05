@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v1.2.0
+
+[compare changes](https://github.com/ashgw/ts-env/compare/v1.1.0...v1.2.0)
+
+### 🩹 Fixes
+
+- **#1:** Make TS error on disablePrefix repeated keys ([1e4f251](https://github.com/ashgw/ts-env/commit/1e4f251))
+
+### 📖 Documentation
+
+- Update `README.md` ([6655cda](https://github.com/ashgw/ts-env/commit/6655cda))
+
+### 🤖 CI
+
+- Publish on main ([97d242d](https://github.com/ashgw/ts-env/commit/97d242d))
+- Publish on main ([f461d2b](https://github.com/ashgw/ts-env/commit/f461d2b))
+
+### ❤️ Contributors
+
+- Ashref Gwader ([@AshGw](http://github.com/AshGw))
+- AshGw <ashrefgw@proton.me>
+
 ## v1.1.0
 
 
