@@ -104,3 +104,15 @@ export function createEnv<
 
   return finalEnv as PrefixedEnvVars<V, Prefix, DisablePrefix[number]>;
 }
+
+const env = createEnv({
+  vars: {
+    NODE_ENV: z.string().min(1),
+    DASHBOARD_URL: z.string().min(1),
+  },
+  prefix: 'NEXT_PUBLIC',
+  skipValidation: false,
+  disablePrefix: ['DASHBOARD_URL', 'NODE_ENV'],
+});
+
+console.log(env.NODE_ENV);
