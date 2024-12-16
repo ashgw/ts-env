@@ -92,7 +92,8 @@
     "typescript": "5.3.3",
     "vite-tsconfig-paths": "4.2.3",
     "vitest": "1.5.0",
-    "zod": "3.23.8"
+    "zod": ">=3.0.0"
+
   },
   "peerDependencies": {
     "zod": ">=3.0.0"
