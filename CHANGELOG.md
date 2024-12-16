@@ -1,6 +1,20 @@
 # Changelog
 
 
+## v1.2.3
+
+[compare changes](https://github.com/ashgw/ts-env/compare/v1.2.2...v1.2.3)
+
+### 🏡 Chore
+
+- Add zod as peer dep ([a99c457](https://github.com/ashgw/ts-env/commit/a99c457))
+- Remove deeply nested `UniqueArray` structure ([2fa1d74](https://github.com/ashgw/ts-env/commit/2fa1d74))
+- Merge main ([77e3dba](https://github.com/ashgw/ts-env/commit/77e3dba))
+
+### ❤️ Contributors
+
+- AshGw <ashrefgw@proton.me>
+
 ## v1.2.2
 
 [compare changes](https://github.com/ashgw/ts-env/compare/v1.2.1...v1.2.2)
