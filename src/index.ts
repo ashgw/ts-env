@@ -1,18 +1,31 @@
-import { z, ZodType, ZodError } from 'zod';
+import { z, ZodTypeAny, ZodError } from 'zod';
 
-type EnvVar = Record<string, ZodType<any>>;
-type Maybe<T> = T | undefined;
+import type { Maybe, UniqueArray } from './helper-types';
+
+type EnvVar = Record<string, ZodTypeAny>;
 
 interface EnvSchema<
   V extends EnvVar,
-  Prefix extends Maybe<string> = undefined,
+  Prefix extends Maybe<string>,
   DisablePrefix extends ReadonlyArray<keyof V & string> = [],
 > {
   vars: V;
   prefix?: Prefix;
   skipValidation?: boolean;
-  disablePrefix?: DisablePrefix;
+  disablePrefix?: UniqueArray<DisablePrefix>;
 }
+
+type PrefixedEnvVars<
+  V extends EnvVar,
+  Prefix extends Maybe<string>,
+  DisablePrefix extends keyof V & string = never,
+> = {
+  [K in keyof V as K extends DisablePrefix
+    ? K
+    : Prefix extends string
+      ? `${Prefix}_${string & K}`
+      : K]: z.infer<V[K]>;
+};
 
 /**
  * Loads and validates environment variables based on the provided schema.
@@ -23,7 +36,7 @@ export function createEnv<
   DisablePrefix extends readonly (keyof V & string)[] = [],
 >(
   options: EnvSchema<V, Prefix, DisablePrefix>
-): Record<string, z.infer<V[string]>> {
+): PrefixedEnvVars<V, Prefix, DisablePrefix[number]> {
   const {
     vars,
     prefix,
@@ -34,23 +47,29 @@ export function createEnv<
   const runtimeEnv = { ...process.env } as Record<string, Maybe<string>>;
 
   const transformedEnv: Record<string, unknown> = {};
-  for (const key in vars) {
-    const shouldPrefix = prefix && !disablePrefix.includes(key);
-    const envKey = shouldPrefix ? `${prefix}_${key}` : key;
+  Object.keys(vars).forEach((key) => {
+    const envKey =
+      prefix && !disablePrefix.includes(key as keyof V & string)
+        ? `${prefix}_${key}`
+        : key;
+
     const value = runtimeEnv[envKey];
     if (value !== undefined) {
-      transformedEnv[key] = value;
+      transformedEnv[key as keyof V & string] = value;
     }
-  }
+  });
 
   if (skipValidation) {
-    const finalEnv: Record<string, unknown> = {};
-    for (const key in vars) {
-      const shouldPrefix = prefix && !disablePrefix.includes(key);
-      const envKey = shouldPrefix ? `${prefix}_${key}` : key;
-      finalEnv[envKey] = runtimeEnv[envKey];
-    }
-    return finalEnv as Record<string, z.infer<V[string]>>;
+    return Object.keys(vars).reduce(
+      (finalEnv, key) => {
+        const shouldPrefix =
+          prefix && !disablePrefix.includes(key as keyof V & string);
+        const envKey = shouldPrefix ? `${prefix}_${key}` : key;
+        finalEnv[envKey] = runtimeEnv[envKey];
+        return finalEnv;
+      },
+      {} as Record<string, unknown>
+    ) as PrefixedEnvVars<V, Prefix, DisablePrefix[number]>;
   }
 
   const schema = z.object(vars);
@@ -62,9 +81,10 @@ export function createEnv<
       Record<string, string[]>
     >((acc, [key, value]) => {
       if (value) {
-        const shouldPrefix =
-          prefix && !disablePrefix.includes(key as keyof V & string);
-        const prefixedKey = shouldPrefix ? `${prefix}_${key}` : key;
+        const prefixedKey =
+          prefix && !disablePrefix.includes(key as keyof V & string)
+            ? `${prefix}_${key}`
+            : key;
         acc[prefixedKey] = value;
       }
       return acc;
@@ -75,12 +95,12 @@ export function createEnv<
   }
 
   const finalEnv: Record<string, unknown> = {};
-  for (const [key, value] of Object.entries(parsed.data)) {
-    const shouldPrefix =
-      prefix && !disablePrefix.includes(key as keyof V & string);
-    const envKey = shouldPrefix ? `${prefix}_${key}` : key;
-    finalEnv[envKey] = value;
-  }
 
-  return finalEnv as Record<string, z.infer<V[string]>>;
+  Object.entries(parsed.data).forEach(([key, value]) => {
+    const envKey =
+      prefix && !disablePrefix.includes(key) ? `${prefix}_${key}` : key;
+    finalEnv[envKey] = value;
+  });
+
+  return finalEnv as PrefixedEnvVars<V, Prefix, DisablePrefix[number]>;
 }
