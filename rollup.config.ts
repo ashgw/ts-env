@@ -29,6 +29,18 @@ const runtimes: RollupOptions = {
       format: 'cjs',
       sourcemap: false,
     },
+    {
+      file: './dist/index.umd.js',
+      format: 'umd',
+      name: 'tsenv',
+      sourcemap: false,
+    },
+    {
+      file: './dist/index.iife.js',
+      format: 'iife',
+      name: 'tsenv',
+      sourcemap: false,
+    },
   ],
   plugins: [
     rollupPluginAutoExternal(),
