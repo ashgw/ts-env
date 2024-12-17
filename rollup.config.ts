@@ -32,13 +32,11 @@ const runtimes: RollupOptions = {
     {
       file: './dist/index.umd.js',
       format: 'umd',
-      name: 'tsenv',
       sourcemap: false,
     },
     {
       file: './dist/index.iife.js',
       format: 'iife',
-      name: 'tsenv',
       sourcemap: false,
     },
   ],
