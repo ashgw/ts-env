@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v1.3.4
+
+[compare changes](https://github.com/ashgw/ts-env/compare/v1.3.3...v1.3.4)
+
+### 📖 Documentation
+
+- Update RAEDME ([3816ba8](https://github.com/ashgw/ts-env/commit/3816ba8))
+
+### 📦 Build
+
+- More types ([82bf4b7](https://github.com/ashgw/ts-env/commit/82bf4b7))
+
+### ❤️ Contributors
+
+- AshGw <ashrefgw@proton.me>
+
 ## v1.3.3
 
 [compare changes](https://github.com/ashgw/ts-env/compare/v1.3.2...v1.3.3)
