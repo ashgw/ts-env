@@ -32,6 +32,7 @@ const runtimes: RollupOptions = {
     {
       file: './dist/index.umd.js',
       format: 'umd',
+      name: 'env',
       sourcemap: false,
     },
     {
