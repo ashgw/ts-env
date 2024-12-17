@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.3.5
+
+[compare changes](https://github.com/ashgw/ts-env/compare/v1.3.4...v1.3.5)
+
+### 🩹 Fixes
+
+- Module resolution ([48a1a20](https://github.com/ashgw/ts-env/commit/48a1a20))
+
+### ❤️ Contributors
+
+- AshGw <ashrefgw@proton.me>
+
 ## v1.3.4
 
 [compare changes](https://github.com/ashgw/ts-env/compare/v1.3.3...v1.3.4)
