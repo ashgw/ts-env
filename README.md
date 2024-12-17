@@ -2,7 +2,7 @@
 
 A lightweight TypeScript utility for managing and validating environment variables with [`zod`](https://github.com/colinhacks/zod).
 
-## Features
+## What It Does
 
 - **Schema Validation**: Validate environment variables with a `zod` schema.
 - **Prefix Handling**: Support prefixes like `NEXT_PUBLIC_` for variables.
