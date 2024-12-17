@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.3.0
+
+[compare changes](https://github.com/ashgw/ts-env/compare/v1.2.4...v1.3.0)
+
+### 🩹 Fixes
+
+- Type nesting ([1fc5fd2](https://github.com/ashgw/ts-env/commit/1fc5fd2))
+
+### ❤️ Contributors
+
+- AshGw <ashrefgw@proton.me>
+
 ## v1.2.4
 
 [compare changes](https://github.com/ashgw/ts-env/compare/v1.2.2...v1.2.4)
