@@ -1,7 +1,7 @@
 import { z, ZodTypeAny, ZodError } from 'zod';
 import type { Maybe, UniqueArray } from './helper-types';
 
-type EnvVar = Record<string, ZodTypeAny>;
+type EnvVar = Record<string, any>;
 
 interface EnvSchema<
   V extends EnvVar,
@@ -38,7 +38,7 @@ type PrefixedEnvVars<
 > = RenameKeys<InferEnvVars<V>, Prefix, DisablePrefix>;
 
 export function createEnv<
-  V extends EnvVar,
+  V extends Record<string, ZodTypeAny>,
   Prefix extends Maybe<string> = undefined,
   DisablePrefix extends readonly (keyof V & string)[] = [],
 >(
