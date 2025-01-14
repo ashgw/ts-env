@@ -1,14 +1,32 @@
 # @ashgw/ts-env
 
+  
+
 A lightweight TypeScript utility for managing and validating environment variables with [`zod`](https://github.com/colinhacks/zod).
+
 
 ## What It Does
 
+
 - **Schema Validation**: Validate environment variables with a `zod` schema.
+
 - **Prefix Handling**: Support prefixes like `NEXT_PUBLIC_` for variables.
+
 - **Flexible Prefix Control**: Exclude prefixes for specific variables as needed.
+
 - **Type Safety**: Access environment variables with full type safety.
+
 - **Optional Validation**: Skip validation when required.
+
+
+## Why Not Use Other Options?
+
+- **t3-oss/t3-env**: forces you to repeat yourself with runtime, server & client options. And I personally don't repeat myself. So I added a prefix option e.g: `prefix: 'NEXT_PUBLIC'`, you add it once and that's it.
+
+- **envalid**: it doesn't use  `zod`, which means additional overhead for importing and learning a new schema validation lib. You already know zod, so might as well use it.
+
+- **envsafe**: too many options, can lead to mental overhead, and I don't like mental overhead, you probably don't too, plus, last commit was like 2 years ago.
+- **your own library:** If you created one cool, but if you didn't, here's one.
 ## Installation
 
 ```bash
