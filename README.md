@@ -1,6 +1,6 @@
 # @ashgw/ts-env
 
-  
+
 
 A lightweight TypeScript utility for managing and validating environment variables with [`zod`](https://github.com/colinhacks/zod).
 
@@ -142,14 +142,27 @@ When validation fails, `createEnv` throws an error with details:
 
 ```bash
 ❌ Invalid environment variables: {
-  NEXT_PUBLIC_API_URL: [ 'Invalid url' ],
-  NEXT_PUBLIC_PORT: [ 'PORT must be a number' ],
-  NODE_ENV: [ 'String must contain at least 1 character(s)' ]
+  NEXT_PUBLIC_WWW_URL: [ 'Invalid url' ],
+  NEXT_PUBLIC_WWW_GOOGLE_ANALYTICS_ID: [
+    'String must contain at least 7 character(s)',
+    'Invalid input: must start with "G-"'
+  ],
+  NEXT_PUBLIC_BLOG_GOOGLE_ANALYTICS_ID: [
+    'String must contain at least 7 character(s)',
+    'Invalid input: must start with "G-"'
+  ],
+  NEXT_PUBLIC_BLOG_URL: [ 'Invalid url' ]
 }
-Error: Invalid environment variables
-    at createEnv (.../index.ts:XX:XX)
-    ...
 ```
+Here's an an example in [action.](https://github.com/ashgw/ashgw.me/actions/runs/12863495726/job/35860182081#step:5:25)
+
+<details>
+<summary><strong>Example with IntelliSense</strong></summary>
+
+![Image](https://github.com/user-attachments/assets/10a49170-4aac-4c78-98d2-63c61a461392)
+</details>
+
+
 
 ## License
 
