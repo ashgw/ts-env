@@ -163,6 +163,36 @@ Here's an an example in [action.](https://github.com/ashgw/ashgw.me/actions/runs
 </details>
 
 
+## Presets
+
+To simplify the management of environment variables for specific platforms, you can use presets provided by the library. For example, if you're deploying on Vercel, you can easily include all the relevant environment variables by importing and using the dedicated Vercel preset.
+
+### Example with Vercel Preset
+
+```typescript
+import { preset } from '@ashgw/ts-env'
+
+const isBrowser = typeof window !== "undefined";
+
+export const env = createEnv({
+  vars: {
+    YOUR_ENV_VAR: z.string().min(7).startsWith("S-"),
+    ...preset('vercel'),
+  },
+  disablePrefix: ["NODE_ENV"],
+  prefix: "NEXT_PUBLIC",
+  skipValidation: isBrowser, // Since env vars are already injected at build time
+});
+```
+Now you have access to all of vercel env vars such as:
+```typescript
+console.debug(env.VERCEL_GIT_COMMIT_SHA)
+```
+#### Supported presets
+- Vercel
+- Netlify 
+- Fly
+- Railway
 
 ## License
 

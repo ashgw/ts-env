@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { createEnv } from 'src';
+import { createEnv, preset } from 'src';
 import { expect, describe, it, afterEach } from 'vitest';
 
 describe('createEnv', () => {
@@ -184,5 +184,45 @@ describe('createEnv', () => {
 
     expect(env['NEXT_PUBLIC_API_URL']).toBe(process.env.NEXT_PUBLIC_API_URL);
     expect(env['NEXT_PUBLIC_PORT']).toBe(process.env.NEXT_PUBLIC_PORT);
+  });
+
+  it('should work with preset', () => {
+    process.env.VERCEL_AUTOMATION_BYPASS_SECRET = 'X8Z69';
+    process.env.VERCEL = 'test';
+    process.env.CI = 'true';
+    process.env.PORT = '5454';
+    process.env.VERCEL_ENV = 'development';
+    process.env.VERCEL_URL = 'https://example.vercel.app';
+    process.env.VERCEL_PROJECT_PRODUCTION_URL =
+      'https://production.example.vercel.app';
+    process.env.VERCEL_BRANCH_URL = 'https://example.vercel.app/branch';
+    process.env.VERCEL_REGION = 'us';
+    process.env.VERCEL_DEPLOYMENT_ID = 'deployment-id-123';
+    process.env.VERCEL_SKEW_PROTECTION_ENABLED = 'false';
+    process.env.VERCEL_AUTOMATION_BYPASS_SECRET = 'X8Z69';
+    process.env.VERCEL_GIT_PROVIDER = 'github';
+    process.env.VERCEL_GIT_REPO_SLUG = 'user/repo';
+    process.env.VERCEL_GIT_REPO_OWNER = 'user';
+    process.env.VERCEL_GIT_REPO_ID = 'repo-id';
+    process.env.VERCEL_GIT_COMMIT_REF = 'main';
+    process.env.VERCEL_GIT_COMMIT_SHA = 'commit-sha';
+    process.env.VERCEL_GIT_COMMIT_MESSAGE = 'commit message';
+    process.env.VERCEL_GIT_COMMIT_AUTHOR_LOGIN = 'author';
+    process.env.VERCEL_GIT_COMMIT_AUTHOR_NAME = 'Author Name';
+    process.env.VERCEL_GIT_PREVIOUS_SHA = 'previous-sha';
+    process.env.VERCEL_GIT_PULL_REQUEST_ID = 'pr-id';
+    const env = createEnv({
+      vars: {
+        PORT: z.string().regex(/^\d+$/, 'PORT must be a number'),
+        ...preset('vercel'),
+      },
+      disablePrefix: [],
+    });
+    expect(env.VERCEL_AUTOMATION_BYPASS_SECRET).toBe(
+      process.env.VERCEL_AUTOMATION_BYPASS_SECRET
+    );
+    expect(env.VERCEL_GIT_PREVIOUS_SHA).toBe(
+      process.env.VERCEL_GIT_PREVIOUS_SHA
+    );
   });
 });

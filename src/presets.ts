@@ -1,10 +1,43 @@
 import { z } from 'zod';
 
+type Preset = 'vercel' | 'netlify' | 'fly' | 'railway' | 'render';
+
+/**
+ * Returns the environment variable schema for the specified preset.
+ *
+ * @param preset - The name of the preset to retrieve. Available presets are:
+ *   - 'vercel': For Vercel deployment environment variables.
+ *   - 'netlify': For Netlify deployment environment variables.
+ *   - 'fly': For Fly.io deployment environment variables.
+ *   - 'railway': For Railway deployment environment variables.
+ *   - 'render': For Render deployment environment variables.
+ *
+ * @returns An object containing the environment variable schemas defined for the specified preset.
+ */
+// Map preset names to their return types
+
+export function preset(preset: 'vercel'): ReturnType<typeof vercel>;
+export function preset(preset: 'netlify'): ReturnType<typeof netlify>;
+export function preset(preset: 'fly'): ReturnType<typeof fly>;
+export function preset(preset: 'railway'): ReturnType<typeof railway>;
+export function preset(preset: 'render'): ReturnType<typeof render>;
+export function preset(preset: Preset): unknown {
+  return preset === 'vercel'
+    ? vercel()
+    : preset === 'netlify'
+      ? netlify()
+      : preset === 'fly'
+        ? fly()
+        : preset === 'railway'
+          ? railway()
+          : render();
+}
+
 /**
  * Vercel System Environment Variables
  * @see https://vercel.com/docs/projects/environment-variables/system-environment-variables#system-environment-variables
  */
-export const vercel = () => {
+const vercel = () => {
   return {
     VERCEL: z.string().optional(),
     CI: z.string().optional(),
@@ -27,14 +60,14 @@ export const vercel = () => {
     VERCEL_GIT_COMMIT_AUTHOR_NAME: z.string().optional(),
     VERCEL_GIT_PREVIOUS_SHA: z.string().optional(),
     VERCEL_GIT_PULL_REQUEST_ID: z.string().optional(),
-  };
+  } as const;
 };
 
 /**
  * Render System Environment Variables
  * @see https://docs.render.com/environment-variables#all-runtimes
  */
-export const render = () => {
+const render = () => {
   return {
     IS_PULL_REQUEST: z.string().optional(),
     RENDER_DISCOVERY_SERVICE: z.string().optional(),
@@ -50,14 +83,14 @@ export const render = () => {
       .enum(['web', 'pserv', 'cron', 'worker', 'static'])
       .optional(),
     RENDER: z.string().optional(),
-  };
+  } as const;
 };
 
 /**
  * Railway Environment Variables
  * @see https://docs.railway.app/reference/variables#railway-provided-variables
  */
-export const railway = () => {
+const railway = () => {
   return {
     RAILWAY_PUBLIC_DOMAIN: z.string().optional(),
     RAILWAY_PRIVATE_DOMAIN: z.string().optional(),
@@ -82,14 +115,14 @@ export const railway = () => {
     RAILWAY_GIT_REPO_NAME: z.string().optional(),
     RAILWAY_GIT_REPO_OWNER: z.string().optional(),
     RAILWAY_GIT_COMMIT_MESSAGE: z.string().optional(),
-  };
+  } as const;
 };
 
 /**
  * Fly.io Environment Variables
  * @see https://fly.io/docs/machines/runtime-environment/#environment-variables
  */
-export const fly = () => {
+const fly = () => {
   return {
     FLY_APP_NAME: z.string().optional(),
     FLY_MACHINE_ID: z.string().optional(),
@@ -102,14 +135,14 @@ export const fly = () => {
     FLY_PROCESS_GROUP: z.string().optional(),
     FLY_VM_MEMORY_MB: z.string().optional(),
     PRIMARY_REGION: z.string().optional(),
-  };
+  } as const;
 };
 
 /**
  * Netlify Environment Variables
  * @see https://docs.netlify.com/configure-builds/environment-variables
  */
-export const netlify = () => {
+const netlify = () => {
   return {
     NETLIFY: z.string().optional(),
     BUILD_ID: z.string().optional(),
@@ -124,5 +157,5 @@ export const netlify = () => {
     DEPLOY_ID: z.string().optional(),
     SITE_NAME: z.string().optional(),
     SITE_ID: z.string().optional(),
-  };
+  } as const;
 };
