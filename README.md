@@ -26,7 +26,7 @@ A lightweight TypeScript utility for managing and validating environment variabl
 - **envalid**: it doesn't use  `zod`, which means additional overhead for importing and learning a new schema validation lib. You already know zod, so might as well use it.
 
 - **envsafe**: too many options, can lead to mental overhead, and I don't like mental overhead, you probably don't too, plus, last commit was like 2 years ago.
-- **your own library:** If you created one cool, but if you didn't, here's one.
+- **your own library:** If you've already created one, it probably sucks; this one doesn't.
 ## Installation
 
 ```bash
@@ -170,6 +170,7 @@ To simplify the management of environment variables for specific platforms, you 
 ### Example with Vercel Preset
 
 ```typescript
+import { z } from 'zod';
 import { preset } from '@ashgw/ts-env'
 
 const isBrowser = typeof window !== "undefined";
@@ -179,8 +180,6 @@ export const env = createEnv({
     YOUR_ENV_VAR: z.string().min(7).startsWith("S-"),
     ...preset('vercel'),
   },
-  disablePrefix: ["NODE_ENV"],
-  prefix: "NEXT_PUBLIC",
   skipValidation: isBrowser, // Since env vars are already injected at build time
 });
 ```
@@ -190,7 +189,7 @@ console.debug(env.VERCEL_GIT_COMMIT_SHA)
 ```
 #### Supported presets
 - Vercel
-- Netlify 
+- Netlify
 - Fly
 - Railway
 

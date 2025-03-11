@@ -14,7 +14,6 @@ type Preset = 'vercel' | 'netlify' | 'fly' | 'railway' | 'render';
  *
  * @returns An object containing the environment variable schemas defined for the specified preset.
  */
-// Map preset names to their return types
 
 export function preset(preset: 'vercel'): ReturnType<typeof vercel>;
 export function preset(preset: 'netlify'): ReturnType<typeof netlify>;

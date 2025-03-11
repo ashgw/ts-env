@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v1.4.0
+
+[compare changes](https://github.com/ashgw/ts-env/compare/v1.3.6...v1.4.0)
+
+### 🚀 Enhancements
+
+- Add new deployment presets ([fa3b1e4](https://github.com/ashgw/ts-env/commit/fa3b1e4))
+- Add deployment presets ([e5af885](https://github.com/ashgw/ts-env/commit/e5af885))
+
+### ❤️ Contributors
+
+- Ashgw <ashrefgw@proton.me>
+
 ## v1.3.6
 
 [compare changes](https://github.com/ashgw/ts-env/compare/v1.3.5...v1.3.6)
