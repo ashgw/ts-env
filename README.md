@@ -169,24 +169,7 @@ To simplify the management of environment variables for specific platforms, you 
 
 ### Example with Vercel Preset
 
-```typescript
-import { z } from 'zod';
-import { preset } from '@ashgw/ts-env'
-
-const isBrowser = typeof window !== "undefined";
-
-export const env = createEnv({
-  vars: {
-    YOUR_ENV_VAR: z.string().min(7).startsWith("S-"),
-    ...preset('vercel'),
-  },
-  skipValidation: isBrowser, // Since env vars are already injected at build time
-});
-```
-Now you have access to all of vercel env vars such as:
-```typescript
-console.debug(env.VERCEL_GIT_COMMIT_SHA)
-```
+![image](https://github.com/user-attachments/assets/92acc69b-a5fe-4c54-9de4-90fba356bcc1)
 #### Supported presets
 - Vercel
 - Netlify
