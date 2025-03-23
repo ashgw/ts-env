@@ -212,7 +212,7 @@ When working with NextJS in a monorepo setup, you may encounter issues with envi
 3. Client components can't access server-side environment variables directly
 
 
-In a standard NextJS app, environment variables work seamlessly between server and client components when defined in `.env` files at the app root. So you configs you see above will work fine. However, in monorepos:
+In a standard NextJS app, environment variables work seamlessly between server and client components when defined in `.env` files at the app root. So the configs you see above will work just fine. However, in monorepos:
 
 - Environment variables defined in shared packages may not be properly injected into client components
 - Even with transpilation of packages, NextJS might not correctly process environment variables from shared packages
@@ -236,7 +236,7 @@ export const env = createEnv({
   },
   disablePrefix: ["NODE_ENV"],
   prefix: "NEXT_PUBLIC",
-  // Explicitly define environment variables for type safety and client-side access
+  // Explicitly define environment variables
   runtimeEnv: {
     NEXT_PUBLIC_WWW_GOOGLE_ANALYTICS_ID:
       process.env.NEXT_PUBLIC_WWW_GOOGLE_ANALYTICS_ID,
@@ -249,6 +249,7 @@ export const env = createEnv({
   skipValidation: isBrowser, // Skip validation in the browser since variables are injected at build time
 });
 ```
+> `runtimeEnv` is typesafe too so you won't have to worry about missing any variable
 
 ### Additional Configuration for Turborepo
 
