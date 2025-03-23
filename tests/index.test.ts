@@ -225,4 +225,108 @@ describe('createEnv', () => {
       process.env.VERCEL_GIT_PREVIOUS_SHA
     );
   });
+
+  // New tests for runtimeEnv functionality
+  it('should use custom runtimeEnv values when provided', () => {
+    // Set process.env values
+    process.env.API_URL = 'https://process-env.com';
+    process.env.PORT = '3000';
+
+    // Create env with custom runtimeEnv that overrides process.env
+    const env = createEnv({
+      vars: {
+        API_URL: z.string().url(),
+        PORT: z.string().regex(/^\d+$/, 'PORT must be a number'),
+      },
+      runtimeEnv: {
+        API_URL: 'https://custom-env.com',
+        PORT: '5000',
+      },
+    });
+
+    // Should use the custom values
+    expect(env.API_URL).toBe('https://custom-env.com');
+    expect(env.PORT).toBe('5000');
+  });
+
+  it('should use custom runtimeEnv with prefixes', () => {
+    // Set process.env values
+    process.env.NEXT_PUBLIC_API_URL = 'https://process-env.com';
+    process.env.NEXT_PUBLIC_PORT = '3000';
+
+    // Create env with custom runtimeEnv that overrides process.env
+    const env = createEnv({
+      vars: {
+        API_URL: z.string().url(),
+        PORT: z.string().regex(/^\d+$/, 'PORT must be a number'),
+      },
+      prefix: 'NEXT_PUBLIC',
+      runtimeEnv: {
+        NEXT_PUBLIC_API_URL: 'https://custom-env.com',
+        NEXT_PUBLIC_PORT: '5000',
+      },
+    });
+
+    // Should use the custom values
+    expect(env.NEXT_PUBLIC_API_URL).toBe('https://custom-env.com');
+    expect(env.NEXT_PUBLIC_PORT).toBe('5000');
+  });
+
+  it('should use custom runtimeEnv with disabled prefixes', () => {
+    // Create env with custom runtimeEnv
+    const env = createEnv({
+      vars: {
+        API_URL: z.string().url(),
+        NODE_ENV: z.enum(['development', 'production', 'test']),
+        PORT: z.string().regex(/^\d+$/, 'PORT must be a number'),
+      },
+      prefix: 'NEXT_PUBLIC',
+      disablePrefix: ['NODE_ENV'],
+      runtimeEnv: {
+        NEXT_PUBLIC_API_URL: 'https://custom-env.com',
+        NEXT_PUBLIC_PORT: '5000',
+        NODE_ENV: 'development',
+      },
+    });
+
+    // Should use the custom values with correct prefixing
+    expect(env.NEXT_PUBLIC_API_URL).toBe('https://custom-env.com');
+    expect(env.NEXT_PUBLIC_PORT).toBe('5000');
+    expect(env.NODE_ENV).toBe('development');
+  });
+
+  it('should validate custom runtimeEnv values', () => {
+    // Should throw error for invalid URL in custom runtimeEnv
+    expect(() =>
+      createEnv({
+        vars: {
+          API_URL: z.string().url(),
+          PORT: z.string().regex(/^\d+$/, 'PORT must be a number'),
+        },
+        runtimeEnv: {
+          API_URL: 'not-a-valid-url',
+          PORT: '5000',
+        },
+      })
+    ).toThrowError('Invalid environment variables');
+  });
+
+  it('should skip validation for custom runtimeEnv when skipValidation is true', () => {
+    // Create env with invalid custom runtimeEnv but skipValidation
+    const env = createEnv({
+      vars: {
+        API_URL: z.string().url(),
+        PORT: z.string().regex(/^\d+$/, 'PORT must be a number'),
+      },
+      skipValidation: true,
+      runtimeEnv: {
+        API_URL: 'not-a-valid-url',
+        PORT: 'not-a-number',
+      },
+    });
+
+    // Should use the invalid values without validation
+    expect(env.API_URL).toBe('not-a-valid-url');
+    expect(env.PORT).toBe('not-a-number');
+  });
 });

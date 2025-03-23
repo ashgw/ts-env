@@ -18,10 +18,12 @@ A lightweight TypeScript utility for managing and validating environment variabl
 
 - **Optional Validation**: Skip validation when required.
 
+- **Custom Runtime Environment**: Explicitly define environment variables for client-side code in monorepos.
+
 
 ## Why Not Use Other Options?
 
-- **t3-oss/t3-env**: forces you to repeat yourself with runtime, server & client options. And I personally don't repeat myself. So I added a prefix option e.g: `prefix: 'NEXT_PUBLIC'`, you add it once and that's it.
+- **t3-oss/t3-env**: Very convoluted. Also doesn't have a prefix. So I added a prefix option e.g: `prefix: 'NEXT_PUBLIC'`, you add it once and that's it.
 
 - **envalid**: it doesn't use  `zod`, which means additional overhead for importing and learning a new schema validation lib. You already know zod, so might as well use it.
 
@@ -121,6 +123,30 @@ console.log(env.API_URL);
 console.log(env.PORT);
 ```
 
+### Custom Runtime Environment
+
+For cases where you need to explicitly define environment variables (especially in client-side code), use the `runtimeEnv` option:
+
+```typescript
+import { z } from 'zod';
+import { createEnv } from '@ashgw/ts-env';
+
+const isBrowser = typeof window !== 'undefined';
+
+const env = createEnv({
+  vars: {
+    API_URL: z.string().url(),
+    API_KEY: z.string().min(1),
+  },
+  prefix: 'NEXT_PUBLIC',
+  runtimeEnv: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    NEXT_PUBLIC_API_KEY: process.env.NEXT_PUBLIC_API_KEY,
+  },
+  skipValidation: isBrowser,
+});
+```
+
 ## API
 
 ### `createEnv`
@@ -131,6 +157,7 @@ console.log(env.PORT);
 - `prefix` (optional): A prefix to apply to variables (e.g., `'NEXT_PUBLIC'`).
 - `disablePrefix` (optional): An array of variable names to exclude from the prefix.
 - `skipValidation` (optional): If `true`, skips validation.
+- `runtimeEnv` (optional): Explicitly define environment variables, useful for client-side code.
 
 #### Returns
 
@@ -154,7 +181,7 @@ When validation fails, `createEnv` throws an error with details:
   NEXT_PUBLIC_BLOG_URL: [ 'Invalid url' ]
 }
 ```
-Here's an an example in [action.](https://github.com/ashgw/ashgw.me/actions/runs/12863495726/job/35860182081#step:5:25)
+Here's an example in [action.](https://github.com/ashgw/ashgw.me/actions/runs/12863495726/job/35860182081#step:5:25)
 
 <details>
 <summary><strong>Example with IntelliSense</strong></summary>
@@ -175,6 +202,75 @@ To simplify the management of environment variables for specific platforms, you 
 - Netlify
 - Fly
 - Railway
+
+## NextJS Monorepos
+
+When working with NextJS in a monorepo setup, you may encounter issues with environment variables, especially in client components. This is because:
+
+1. In a monorepo, your environment configuration might be in a shared package (e.g., `@packages/env`)
+2. NextJS has special handling for environment variables, particularly those with the `NEXT_PUBLIC_` prefix
+3. Client components can't access server-side environment variables directly
+
+
+In a standard NextJS app, environment variables work seamlessly between server and client components when defined in `.env` files at the app root. So you configs you see above will work fine. However, in monorepos:
+
+- Environment variables defined in shared packages may not be properly injected into client components
+- Even with transpilation of packages, NextJS might not correctly process environment variables from shared packages
+
+
+So to solve this issue, use the `runtimeEnv` option to explicitly define your environment variables:
+
+```typescript
+import { z } from 'zod';
+import { createEnv } from '@ashgw/ts-env';
+
+const isBrowser = typeof window !== 'undefined';
+
+export const env = createEnv({
+  vars: {
+    NODE_ENV: z.enum(["production", "development", "preview"]),
+    WWW_URL: z.string().url(),
+    BLOG_URL: z.string().url(),
+    WWW_GOOGLE_ANALYTICS_ID: z.string().min(7).startsWith("G-"),
+    BLOG_GOOGLE_ANALYTICS_ID: z.string().min(7).startsWith("G-"),
+  },
+  disablePrefix: ["NODE_ENV"],
+  prefix: "NEXT_PUBLIC",
+  // Explicitly define environment variables for type safety and client-side access
+  runtimeEnv: {
+    NEXT_PUBLIC_WWW_GOOGLE_ANALYTICS_ID:
+      process.env.NEXT_PUBLIC_WWW_GOOGLE_ANALYTICS_ID,
+    NEXT_PUBLIC_BLOG_GOOGLE_ANALYTICS_ID:
+      process.env.NEXT_PUBLIC_BLOG_GOOGLE_ANALYTICS_ID,
+    NEXT_PUBLIC_WWW_URL: process.env.NEXT_PUBLIC_WWW_URL,
+    NEXT_PUBLIC_BLOG_URL: process.env.NEXT_PUBLIC_BLOG_URL,
+    NODE_ENV: process.env.NODE_ENV,
+  },
+  skipValidation: isBrowser, // Skip validation in the browser since variables are injected at build time
+});
+```
+
+### Additional Configuration for Turborepo
+
+If you're using Turborepo, remember to add your environment variables to `turbo.json`:
+
+```json
+{
+  "pipeline": {
+    "build": {
+      "env": [
+        "NODE_ENV",
+        "NEXT_PUBLIC_WWW_URL",
+        "NEXT_PUBLIC_BLOG_URL",
+        "NEXT_PUBLIC_WWW_GOOGLE_ANALYTICS_ID",
+        "NEXT_PUBLIC_BLOG_GOOGLE_ANALYTICS_ID"
+      ]
+    }
+  }
+}
+```
+
+This ensures Turborepo correctly passes these environment variables to your build processes.
 
 ## License
 

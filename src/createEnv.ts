@@ -1,7 +1,21 @@
-import { z, ZodError } from 'zod';
 import type { Maybe, UniqueArray } from 'ts-roids';
+import type { ZodError } from 'zod';
+import { z } from 'zod';
 
 type EnvVar = Record<string, any>;
+
+// type to generate prefixed keys for runtime environment
+type PrefixedRuntimeEnv<
+  V extends EnvVar,
+  Prefix extends Maybe<string>,
+  DisablePrefix extends readonly (keyof V & string)[],
+> = {
+  [K in keyof V as K extends DisablePrefix[number]
+    ? K
+    : Prefix extends string
+      ? `${Prefix}_${string & K}`
+      : K]: Maybe<string>;
+};
 
 interface EnvSchema<
   V extends EnvVar,
@@ -12,6 +26,8 @@ interface EnvSchema<
   prefix?: Prefix;
   skipValidation?: boolean;
   disablePrefix?: UniqueArray<DisablePrefix>;
+  // have runtimeEnv type-safe by requiring all variables from vars
+  runtimeEnv?: PrefixedRuntimeEnv<V, Prefix, DisablePrefix>;
 }
 
 type RenameKeys<
@@ -56,9 +72,12 @@ export function createEnv<
     prefix,
     skipValidation = false,
     disablePrefix = [] as unknown as DisablePrefix,
+    runtimeEnv: customRuntimeEnv,
   } = options;
 
-  const runtimeEnv = { ...process.env } as Record<string, Maybe<string>>;
+  const runtimeEnv = customRuntimeEnv
+    ? { ...process.env, ...customRuntimeEnv }
+    : ({ ...process.env } as Record<string, Maybe<string>>);
 
   const transformedEnv: Record<string, unknown> = {};
   for (const key of Object.keys(vars)) {
