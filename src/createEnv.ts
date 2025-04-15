@@ -6,7 +6,7 @@ import { z } from 'zod';
  * Represents a record of environment variable definitions
  * where each key maps to a Zod schema.
  */
-type EnvVar = Record<string, z.ZodType<any>>;
+type EnvVar = Record<string, z.ZodTypeAny>;
 
 /**
  * Produces a runtime environment type that optionally applies a prefix
