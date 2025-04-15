@@ -1,6 +1,32 @@
 # Changelog
 
 
+## v1.5.1
+
+[compare changes](https://github.com/ashgw/ts-env/compare/v1.3.6...v1.5.1)
+
+### 🚀 Enhancements
+
+- Add new deployment presets ([fa3b1e4](https://github.com/ashgw/ts-env/commit/fa3b1e4))
+- Add deployment presets ([e5af885](https://github.com/ashgw/ts-env/commit/e5af885))
+
+### 🩹 Fixes
+
+- Next monorepo client injection issues ([eb767f0](https://github.com/ashgw/ts-env/commit/eb767f0))
+
+### 📖 Documentation
+
+- Enhance readme ([b73e31f](https://github.com/ashgw/ts-env/commit/b73e31f))
+
+### 🏡 Chore
+
+- **release:** V1.4.0 ([bfc9453](https://github.com/ashgw/ts-env/commit/bfc9453))
+- **release:** V1.5.0 ([9047160](https://github.com/ashgw/ts-env/commit/9047160))
+
+### ❤️ Contributors
+
+- Ashgw <ashrefgw@proton.me>
+
 ## v1.5.0
 
 [compare changes](https://github.com/ashgw/ts-env/compare/v1.3.6...v1.5.0)
