@@ -251,6 +251,7 @@ export const env = createEnv({
 ```
 > `runtimeEnv` is typesafe too so you won't have to worry about missing any variable
 
+Here's how you might configure it in a [monorepo](https://github.com/ashgw/ashgw.me/blob/main/packages/env/index.ts).
 ### Additional Configuration for Turborepo
 
 If you're using Turborepo, remember to add your environment variables to `turbo.json`:
