@@ -183,13 +183,6 @@ When validation fails, `createEnv` throws an error with details:
 ```
 Here's an example in [action.](https://github.com/ashgw/ashgw.me/actions/runs/12863495726/job/35860182081#step:5:25)
 
-<details>
-<summary><strong>Example with IntelliSense</strong></summary>
-
-![Image](https://github.com/user-attachments/assets/10a49170-4aac-4c78-98d2-63c61a461392)
-</details>
-
-
 ## Presets
 
 To simplify the management of environment variables for specific platforms, you can use presets provided by the library. For example, if you're deploying on Vercel, you can easily include all the relevant environment variables by importing and using the dedicated Vercel preset.
@@ -277,3 +270,4 @@ This ensures Turborepo correctly passes these environment variables to your buil
 ## License
 
 [MIT](./LICENSE)
+
