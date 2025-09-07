@@ -1,4 +1,4 @@
-# @ashgw/ts-env
+********# @ashgw/ts-env
 
 
 
@@ -267,7 +267,39 @@ If you're using Turborepo, remember to add your environment variables to `turbo.
 
 This ensures Turborepo correctly passes these environment variables to your build processes.
 
+### Generating `disablePrefix` automatically with `envTuple`
+
+If you split your schema into client and server records, use `envTuple` to produce a typed tuple of your server keys in declaration order, so you don't have to type them all again. This keeps `disablePrefix` in sync with your schema.
+
+```ts
+import { z } from "zod";
+import { createEnv, envTuple } from "@ashgw/ts-env";
+
+const clientVars = {
+  APP_URL: z.string().url(),
+} as const;
+
+const serverVars = {
+  NODE_ENV: z.enum(["development", "preview", "production"]),
+  API_KEY: z.string().min(1),
+  OTHER_KEY: z.string().min(1),
+  //  and more
+};
+
+const serverKeysTuple = envTuple(serverVars);
+//    ^? ["NODE_ENV", "API_KEY", "OTHER_KEY"]
+
+export const env = createEnv({
+  vars: { ...serverVars, ...clientVars },
+  prefix: "NEXT_PUBLIC",
+  disablePrefix: [...serverKeysTuple], 
+  runtimeEnv: {
+    NODE_ENV: process.env.NODE_ENV,
+    API_KEY: process.env.API_KEY,
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+  },
+});
+
 ## License
 
 [MIT](./LICENSE)
-
