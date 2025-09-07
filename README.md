@@ -267,7 +267,7 @@ export const env = createEnv({
   skipValidation: isBrowser, // Skip validation in the browser since variables are injected at build time
 });
 ```
-> `runtimeEnv` is typesafe too so you won't have to worry about missing any variable
+> `runtimeEnv` is typesafe too so you won't have to worry about missing any variables
 
 Here's how you might configure it in a [monorepo](https://github.com/ashgw/ashgw.me/blob/main/packages/env/index.ts).
 ### Additional Configuration for Turborepo
