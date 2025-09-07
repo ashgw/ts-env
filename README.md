@@ -1,4 +1,4 @@
-********# @ashgw/ts-env
+# @ashgw/ts-env
 
 
 
@@ -276,14 +276,13 @@ import { z } from "zod";
 import { createEnv, envTuple } from "@ashgw/ts-env";
 
 const clientVars = {
-  APP_URL: z.string().url(),
+  APP_URL: z.url(),
 } as const;
 
 const serverVars = {
-  NODE_ENV: z.enum(["development", "preview", "production"]),
+  NODE_ENV: z.enum(['development', 'preview', 'production']).optional(),
   API_KEY: z.string().min(1),
   OTHER_KEY: z.string().min(1),
-  //  and more
 };
 
 const serverKeysTuple = envTuple(serverVars);
@@ -291,14 +290,16 @@ const serverKeysTuple = envTuple(serverVars);
 
 export const env = createEnv({
   vars: { ...serverVars, ...clientVars },
-  prefix: "NEXT_PUBLIC",
-  disablePrefix: [...serverKeysTuple], 
+  prefix: 'NEXT_PUBLIC',
+  disablePrefix: [...serverKeysTuple],
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    OTHER_KEY: process.env.OTHER_KEY,
     API_KEY: process.env.API_KEY,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   },
 });
+```
 
 ## License
 
