@@ -1,6 +1,10 @@
 # Changelog
 
 
+## v1.6.0
+
+[compare changes](https://github.com/ashgw/ts-env/compare/v1.5.3...v1.6.0)
+
 ## v1.5.3
 
 [compare changes](https://github.com/ashgw/ts-env/compare/v1.5.2...v1.5.3)
