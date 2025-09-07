@@ -1,4 +1,3 @@
-import type { Keys, UnionToTuple } from 'ts-roids';
 import { z } from 'zod';
 
 /**
@@ -24,4 +23,3 @@ export function envTuple<
 >(keys: Schema): readonly (keyof Schema & string)[] {
   return Object.keys(keys) as readonly (keyof Schema & string)[];
 }
-
