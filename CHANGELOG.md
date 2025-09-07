@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.6.1
+
+[compare changes](https://github.com/ashgw/ts-env/compare/v1.6.0...v1.6.1)
+
+### 🩹 Fixes
+
+- Ts error ([57877f5](https://github.com/ashgw/ts-env/commit/57877f5))
+
+### ❤️ Contributors
+
+- Ashgw <ashrefgw@proton.me>
+
 ## v1.6.0
 
 [compare changes](https://github.com/ashgw/ts-env/compare/v1.5.3...v1.6.0)
