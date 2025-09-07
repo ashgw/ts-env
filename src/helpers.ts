@@ -21,6 +21,7 @@ import { z } from 'zod';
  */
 export function envTuple<
   Schema extends Record<Uppercase<string>, z.ZodTypeAny>,
->(keys: Schema) {
-  return Object.keys(keys) as UnionToTuple<Keys<typeof keys>>;
+>(keys: Schema): readonly (keyof Schema & string)[] {
+  return Object.keys(keys) as readonly (keyof Schema & string)[];
 }
+
