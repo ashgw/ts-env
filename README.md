@@ -196,6 +196,31 @@ To simplify the management of environment variables for specific platforms, you 
 - Fly
 - Railway
 
+### Loading Environment Files
+
+Edge runtimes can’t use Node’s `path`/`fs`. The clean way is to load your `.env` in the shell before running your app (e.g. [check this shell function](https://github.com/ashgw/zshfuncs/blob/main/env.zsh)).
+
+If you still want file-based loading in Node/CI, here’s how:
+
+```ts
+import path from "path";
+import { config } from "dotenv";
+import { createEnv } from "@ashgw/ts-env";
+import { z } from "zod";
+
+if (process.env.CI !== "true") {
+  config({ path: path.resolve(process.cwd(), ".env") });
+}
+
+const env = createEnv({
+  vars: {
+    API_URL: z.string().url(),
+    API_KEY: z.string().min(1),
+  },
+  // ... other confs
+});
+```
+
 ## NextJS Monorepos
 
 When working with NextJS in a monorepo setup, you may encounter issues with environment variables, especially in client components. This is because:
