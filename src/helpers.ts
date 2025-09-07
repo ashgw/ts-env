@@ -1,4 +1,6 @@
-import { z } from 'zod';
+import type { UnionToTuple, Keys } from 'ts-roids';
+
+type OrderedTuple<T> = UnionToTuple<Keys<T>>;
 
 /**
  * Create a **tuple** of env var names from a Zod schema record,
@@ -15,11 +17,7 @@ import { z } from 'zod';
  * const serverVarTuple = envTuple(serverVars);
  * //    ^? ["NODE_ENV", "DATABASE_URL", "DIRECT_URL"]
  *
- * @param keys Record of keys mapped to Zod schemas
- * @returns Tuple of the keys in declaration order
  */
-export function envTuple<
-  Schema extends Record<Uppercase<string>, z.ZodTypeAny>,
->(keys: Schema): readonly (keyof Schema & string)[] {
-  return Object.keys(keys) as readonly (keyof Schema & string)[];
+export function envTuple<Schema extends Record<string, unknown>>(s: Schema) {
+  return Object.keys(s) as OrderedTuple<typeof s>;
 }
