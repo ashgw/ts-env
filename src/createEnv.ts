@@ -135,6 +135,7 @@ export function createEnv<
         const shouldPrefix =
           prefix && !disablePrefix.includes(key as keyof S & string);
         const prefixedKey = shouldPrefix ? `${prefix}_${key}` : key;
+        // @ts-expect-error just stfu
         acc[prefixedKey] = messages;
       }
       return acc;
