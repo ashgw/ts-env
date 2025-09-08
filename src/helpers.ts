@@ -18,7 +18,8 @@ type OrderedTuple<T> = UnionToTuple<Keys<T>>;
  * //    ^? ["NODE_ENV", "DATABASE_URL", "DIRECT_URL"]
  *
  */
-export function envTuple<Schema extends Record<string, any>>(s: Schema): OrderedTuple<typeof s> {
+export function envTuple<Schema extends Record<string, any>>(
+  s: Schema
+): OrderedTuple<typeof s> {
   return Object.keys(s) as OrderedTuple<typeof s>;
 }
-
