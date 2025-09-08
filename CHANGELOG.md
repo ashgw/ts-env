@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.6.6
+
+[compare changes](https://github.com/ashgw/ts-env/compare/v1.6.5...v1.6.6)
+
+### 🏡 Chore
+
+- No env tuple ([e262318](https://github.com/ashgw/ts-env/commit/e262318))
+
+### ❤️ Contributors
+
+- Ashgw <ashrefgw@proton.me>
+
 ## v1.6.5
 
 [compare changes](https://github.com/ashgw/ts-env/compare/v1.6.4...v1.6.5)
