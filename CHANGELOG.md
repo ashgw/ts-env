@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.6.4
+
+[compare changes](https://github.com/ashgw/ts-env/compare/v1.6.3...v1.6.4)
+
+### 🩹 Fixes
+
+- Unknown type issue ([b2daef2](https://github.com/ashgw/ts-env/commit/b2daef2))
+
+### ❤️ Contributors
+
+- Ashgw <ashrefgw@proton.me>
+
 ## v1.6.3
 
 [compare changes](https://github.com/ashgw/ts-env/compare/v1.6.2...v1.6.3)

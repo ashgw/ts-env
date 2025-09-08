@@ -1,6 +1,6 @@
 {
   "name": "@ashgw/ts-env",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "private": false,
   "description": "Type-safe environment variable validator. Catch errors at runtime with strict configs",
   "keywords": [
